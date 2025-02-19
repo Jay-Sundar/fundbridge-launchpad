@@ -39,12 +39,12 @@ const Index = () => {
           </span>
           
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-slate-900 animate-fade-in">
-            Invest in the Next Generation of <br className="hidden sm:block" />
-            <span className="gradient-heading">College Startups</span>
+            Invest in the Next Google, Meta, or <br className="hidden sm:block" />
+            <span className="gradient-heading">Snapchat—Before They Take Off</span>
           </h1>
           
           <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 animate-fade-in delay-100">
-            FundBridge connects everyday investors with high-potential college founders, making startup investing accessible to all
+            FundBridge lets you invest in high-potential college startups, a space that has historically been a goldmine for venture capitalists
           </p>
           
           <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 animate-fade-in delay-200">
@@ -59,6 +59,50 @@ const Index = () => {
               Join the Waitlist
             </Button>
           </form>
+        </div>
+      </section>
+
+      {/* Why College Startups Section */}
+      <section className="section-padding bg-gradient-to-b from-white to-slate-50">
+        <div className="container-width">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Why Invest in <span className="gradient-heading">College Startups</span>?
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              History shows that college campuses are breeding grounds for billion-dollar companies
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <GraduationCap className="h-8 w-8 text-emerald-500" />,
+                title: "Innovation at Its Peak",
+                description: "Access cutting-edge ideas emerging from university ecosystems",
+              },
+              {
+                icon: <TrendingUp className="h-8 w-8 text-emerald-500" />,
+                title: "High Growth Potential",
+                description: "Early-stage investments have historically returned 25-30% IRR",
+              },
+              {
+                icon: <Building2 className="h-8 w-8 text-emerald-500" />,
+                title: "University Support",
+                description: "Benefit from incubators, funding competitions, and top talent",
+              },
+            ].map((feature, index) => (
+              <Card key={index} className="p-6 card-hover">
+                <div className="space-y-4">
+                  <div className="p-2 bg-emerald-50 rounded-lg w-fit">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold">{feature.title}</h3>
+                  <p className="text-slate-600">{feature.description}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -167,17 +211,17 @@ const Index = () => {
               {
                 icon: <GraduationCap className="h-8 w-8 text-emerald-500" />,
                 title: "Exclusive Access",
-                description: "Connect with promising college-founded startups",
+                description: "Connect with promising college-founded startups early",
               },
               {
                 icon: <Users className="h-8 w-8 text-emerald-500" />,
-                title: "Fractional Ownership",
-                description: "Start investing with as little as $1,000",
+                title: "Start Small",
+                description: "Invest with as little as $100 through fractionalized SPVs",
               },
               {
                 icon: <ArrowRight className="h-8 w-8 text-emerald-500" />,
                 title: "Future Liquidity",
-                description: "Access liquidity through peer-to-peer transfers",
+                description: "Access emerging secondary markets for startup shares",
               },
             ].map((feature, index) => (
               <div key={index} className="flex flex-col items-center text-center p-6 space-y-4">
@@ -198,6 +242,43 @@ const Index = () => {
             >
               Join the Investor Waitlist
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Risk Management Section */}
+      <section className="section-padding bg-white">
+        <div className="container-width">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-16">
+            Smart <span className="gradient-heading">Risk Management</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <CheckCircle className="h-8 w-8 text-emerald-500" />,
+                title: "Diversification",
+                description: "Spread risk across multiple investments starting at just $100",
+              },
+              {
+                icon: <DollarSign className="h-8 w-8 text-emerald-500" />,
+                title: "Due Diligence",
+                description: "Rigorous vetting process for all listed startups",
+              },
+              {
+                icon: <Users className="h-8 w-8 text-emerald-500" />,
+                title: "Community Support",
+                description: "Learn from experienced investors in our community",
+              },
+            ].map((feature, index) => (
+              <Card key={index} className="p-6 card-hover">
+                <div className="space-y-4">
+                  {feature.icon}
+                  <h3 className="text-xl font-semibold">{feature.title}</h3>
+                  <p className="text-slate-600">{feature.description}</p>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
