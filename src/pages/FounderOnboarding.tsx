@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -30,19 +29,16 @@ const FounderOnboarding = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState<FormErrors>({});
   
-  // Step 1 - Quick Details
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   
-  // Step 2 - Founder & Company Info
   const [founderName, setFounderName] = useState("");
   const [founderRole, setFounderRole] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [website, setWebsite] = useState("");
   const [entityType, setEntityType] = useState("");
   
-  // Step 3 - Fundraising
   const [raiseAmount, setRaiseAmount] = useState("");
   const [previousCapital, setPreviousCapital] = useState(false);
   const [previousCapitalAmount, setPreviousCapitalAmount] = useState("");
@@ -50,7 +46,6 @@ const FounderOnboarding = () => {
   const [pitchDeck, setPitchDeck] = useState<File | null>(null);
   const [industry, setIndustry] = useState("");
 
-  // Check for pre-filled email from the founders page
   useEffect(() => {
     const savedEmail = localStorage.getItem("founderEmail");
     if (savedEmail) {
@@ -97,7 +92,6 @@ const FounderOnboarding = () => {
       if (currentStep < 3) {
         setCurrentStep(currentStep + 1);
       } else {
-        // Submit form
         handleSubmit();
       }
     }
@@ -110,7 +104,6 @@ const FounderOnboarding = () => {
   };
 
   const handleSaveAndExit = () => {
-    // Save form data to localStorage
     const formData = {
       email,
       founderName,
@@ -131,7 +124,6 @@ const FounderOnboarding = () => {
   };
 
   const handleSubmit = () => {
-    // In a real app, you would send this data to your backend
     const formData = {
       email,
       founderName,
@@ -149,22 +141,19 @@ const FounderOnboarding = () => {
     
     localStorage.setItem('founderOnboardingData', JSON.stringify(formData));
     
-    // In a real app, you would handle the pitch deck file upload to a server
     if (pitchDeck) {
-      toast.success("Application submitted with pitch deck! We'll be in touch soon.");
+      toast.success("Application submitted with pitch deck! We'll review your details.");
     } else {
-      toast.success("Application submitted! We'll be in touch soon.");
+      toast.success("Application submitted! We'll review your details.");
     }
     
-    // Redirect to a success page or dashboard
     setTimeout(() => {
-      navigate("/founders");
+      navigate("/founder-application-status");
     }, 1500);
   };
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 flex flex-col items-center justify-center">
-      {/* Top Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50 border-b">
         <div className="container-width py-4 flex items-center justify-between">
           <Link to="/" className="text-xl font-bold">
