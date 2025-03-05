@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Info, Upload } from "lucide-react";
+import { Info, Upload, Code, Building, GraduationCap, Stethoscope, ShoppingCart, Brain, Waypoints, Cpu, Factory, Leaf } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -21,13 +21,31 @@ interface Step3Props {
   setCompanyDescription: (value: string) => void;
   pitchDeck: File | null;
   setPitchDeck: (file: File | null) => void;
+  industry: string;
+  setIndustry: (value: string) => void;
   errors: {
     raiseAmount?: string;
     companyDescription?: string;
     previousCapitalAmount?: string;
     pitchDeck?: string;
+    industry?: string;
   };
 }
+
+// Industry options with their respective icons
+const industries = [
+  { value: "tech", label: "Technology", icon: Code },
+  { value: "fintech", label: "FinTech", icon: Building },
+  { value: "edtech", label: "Education", icon: GraduationCap },
+  { value: "health", label: "Healthcare", icon: Stethoscope },
+  { value: "ecommerce", label: "E-commerce", icon: ShoppingCart },
+  { value: "ai", label: "AI/ML", icon: Brain },
+  { value: "marketplace", label: "Marketplace", icon: Waypoints },
+  { value: "hardware", label: "Hardware", icon: Cpu },
+  { value: "manufacturing", label: "Manufacturing", icon: Factory },
+  { value: "cleantech", label: "CleanTech", icon: Leaf },
+  { value: "other", label: "Other", icon: Info },
+];
 
 export const Step3: React.FC<Step3Props> = ({
   raiseAmount,
@@ -40,10 +58,48 @@ export const Step3: React.FC<Step3Props> = ({
   setCompanyDescription,
   pitchDeck,
   setPitchDeck,
+  industry,
+  setIndustry,
   errors,
 }) => {
   return (
     <div className="space-y-6">
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <Label htmlFor="industry">Industry *</Label>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Info className="h-4 w-4 text-slate-400" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Select the industry that best describes your business</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+        <Select 
+          onValueChange={setIndustry}
+          value={industry}
+        >
+          <SelectTrigger id="industry" className={errors.industry ? "border-red-500" : ""}>
+            <SelectValue placeholder="Select your industry" />
+          </SelectTrigger>
+          <SelectContent>
+            {industries.map((ind) => {
+              const Icon = ind.icon;
+              return (
+                <SelectItem key={ind.value} value={ind.value} className="flex items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <Icon className="h-4 w-4" />
+                    <span>{ind.label}</span>
+                  </div>
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+        {errors.industry && <p className="text-xs text-red-500 mt-1">{errors.industry}</p>}
+      </div>
+
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Label htmlFor="raiseAmount">Planned Raise Amount *</Label>
@@ -138,9 +194,10 @@ export const Step3: React.FC<Step3Props> = ({
           onChange={(e) => setCompanyDescription(e.target.value)}
           maxLength={200}
           className={cn("resize-none h-24", errors.companyDescription ? "border-red-500" : "")}
-          showCount
-          maxCount={200}
         />
+        <div className="text-xs text-right text-slate-500">
+          {companyDescription.length}/200
+        </div>
         {errors.companyDescription && 
           <p className="text-xs text-red-500 mt-1">{errors.companyDescription}</p>}
       </div>

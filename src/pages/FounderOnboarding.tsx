@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -21,6 +22,7 @@ interface FormErrors {
   companyDescription?: string;
   previousCapitalAmount?: string;
   pitchDeck?: string;
+  industry?: string;
 }
 
 const FounderOnboarding = () => {
@@ -46,6 +48,7 @@ const FounderOnboarding = () => {
   const [previousCapitalAmount, setPreviousCapitalAmount] = useState("");
   const [companyDescription, setCompanyDescription] = useState("");
   const [pitchDeck, setPitchDeck] = useState<File | null>(null);
+  const [industry, setIndustry] = useState("");
 
   // Check for pre-filled email from the founders page
   useEffect(() => {
@@ -77,6 +80,7 @@ const FounderOnboarding = () => {
     }
     
     if (step === 3) {
+      if (!industry) newErrors.industry = "Industry is required";
       if (!raiseAmount) newErrors.raiseAmount = "Raise amount is required";
       if (!companyDescription) newErrors.companyDescription = "Company description is required";
       if (previousCapital && !previousCapitalAmount) {
@@ -135,6 +139,7 @@ const FounderOnboarding = () => {
       companyName,
       website,
       entityType,
+      industry,
       raiseAmount,
       previousCapital,
       previousCapitalAmount,
@@ -239,6 +244,8 @@ const FounderOnboarding = () => {
                 setCompanyDescription={setCompanyDescription}
                 pitchDeck={pitchDeck}
                 setPitchDeck={setPitchDeck}
+                industry={industry}
+                setIndustry={setIndustry}
                 errors={errors}
               />
             )}
