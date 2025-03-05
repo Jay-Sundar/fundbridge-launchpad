@@ -1,11 +1,14 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, Upload } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface Step3Props {
   raiseAmount: string;
@@ -16,10 +19,13 @@ interface Step3Props {
   setPreviousCapitalAmount: (value: string) => void;
   companyDescription: string;
   setCompanyDescription: (value: string) => void;
+  pitchDeck: File | null;
+  setPitchDeck: (file: File | null) => void;
   errors: {
     raiseAmount?: string;
     companyDescription?: string;
     previousCapitalAmount?: string;
+    pitchDeck?: string;
   };
 }
 
@@ -32,6 +38,8 @@ export const Step3: React.FC<Step3Props> = ({
   setPreviousCapitalAmount,
   companyDescription,
   setCompanyDescription,
+  pitchDeck,
+  setPitchDeck,
   errors,
 }) => {
   return (
@@ -130,16 +138,72 @@ export const Step3: React.FC<Step3Props> = ({
           onChange={(e) => setCompanyDescription(e.target.value)}
           maxLength={200}
           className={cn("resize-none h-24", errors.companyDescription ? "border-red-500" : "")}
+          showCount
+          maxCount={200}
         />
-        <div className="text-xs text-right text-slate-500">
-          {companyDescription.length}/200
-        </div>
         {errors.companyDescription && 
           <p className="text-xs text-red-500 mt-1">{errors.companyDescription}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <Label htmlFor="pitchDeck">Pitch Deck (PDF, 10MB max)</Label>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Info className="h-4 w-4 text-slate-400" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Upload your pitch deck to help us better understand your business</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+        <div className="flex gap-4 items-center">
+          <Input
+            id="pitchDeck"
+            type="file"
+            accept=".pdf"
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                if (file.size > 10 * 1024 * 1024) {
+                  // If file size is > 10MB
+                  alert("File size exceeds 10MB limit");
+                  return;
+                }
+                setPitchDeck(file);
+              }
+            }}
+          />
+          <div className="flex-1">
+            <label
+              htmlFor="pitchDeck"
+              className={cn(
+                "flex items-center justify-center w-full p-4 border-2 border-dashed rounded-md cursor-pointer hover:bg-slate-50 transition-colors",
+                errors.pitchDeck ? "border-red-500" : "border-slate-300"
+              )}
+            >
+              <div className="flex flex-col items-center gap-2">
+                <Upload className="h-6 w-6 text-slate-400" />
+                <span className="text-sm text-slate-500">
+                  {pitchDeck ? pitchDeck.name : "Click to upload your pitch deck"}
+                </span>
+              </div>
+            </label>
+          </div>
+          {pitchDeck && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setPitchDeck(null)}
+            >
+              Remove
+            </Button>
+          )}
+        </div>
+        {errors.pitchDeck && <p className="text-xs text-red-500 mt-1">{errors.pitchDeck}</p>}
       </div>
     </div>
   );
 };
-
-// We need to import cn from utils
-import { cn } from "@/lib/utils";

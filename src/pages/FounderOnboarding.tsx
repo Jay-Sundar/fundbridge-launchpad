@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,6 +20,7 @@ interface FormErrors {
   raiseAmount?: string;
   companyDescription?: string;
   previousCapitalAmount?: string;
+  pitchDeck?: string;
 }
 
 const FounderOnboarding = () => {
@@ -45,6 +45,15 @@ const FounderOnboarding = () => {
   const [previousCapital, setPreviousCapital] = useState(false);
   const [previousCapitalAmount, setPreviousCapitalAmount] = useState("");
   const [companyDescription, setCompanyDescription] = useState("");
+  const [pitchDeck, setPitchDeck] = useState<File | null>(null);
+
+  // Check for pre-filled email from the founders page
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("founderEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+  }, []);
 
   const validateStep = (step: number): boolean => {
     const newErrors: FormErrors = {};
@@ -109,6 +118,7 @@ const FounderOnboarding = () => {
       previousCapital,
       previousCapitalAmount,
       companyDescription,
+      pitchDeckName: pitchDeck ? pitchDeck.name : null,
     };
     
     localStorage.setItem('founderOnboardingData', JSON.stringify(formData));
@@ -129,10 +139,17 @@ const FounderOnboarding = () => {
       previousCapital,
       previousCapitalAmount,
       companyDescription,
+      pitchDeckName: pitchDeck ? pitchDeck.name : null,
     };
     
     localStorage.setItem('founderOnboardingData', JSON.stringify(formData));
-    toast.success("Application submitted! We'll be in touch soon.");
+    
+    // In a real app, you would handle the pitch deck file upload to a server
+    if (pitchDeck) {
+      toast.success("Application submitted with pitch deck! We'll be in touch soon.");
+    } else {
+      toast.success("Application submitted! We'll be in touch soon.");
+    }
     
     // Redirect to a success page or dashboard
     setTimeout(() => {
@@ -220,6 +237,8 @@ const FounderOnboarding = () => {
                 setPreviousCapitalAmount={setPreviousCapitalAmount}
                 companyDescription={companyDescription}
                 setCompanyDescription={setCompanyDescription}
+                pitchDeck={pitchDeck}
+                setPitchDeck={setPitchDeck}
                 errors={errors}
               />
             )}
