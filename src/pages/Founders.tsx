@@ -19,7 +19,7 @@ const Founders = () => {
             <Link to="/investors">
               <Button variant="outline">For Investors</Button>
             </Link>
-            <Link to="/#cta">
+            <Link to="/founder-signup">
               <Button>Apply Now</Button>
             </Link>
           </div>
@@ -35,7 +35,7 @@ const Founders = () => {
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
             Get the funding you need from alumni, mentors, and investors who understand your vision
           </p>
-          <Link to="/#cta">
+          <Link to="/founder-signup">
             <Button size="lg" className="cta-button">
               Apply for Funding
             </Button>
@@ -43,7 +43,7 @@ const Founders = () => {
         </div>
       </section>
 
-      <ForFounders onApplyClick={() => window.location.href = '/#cta'} />
+      <ForFounders onApplyClick={() => window.location.href = '/founder-signup'} />
       <HowItWorks />
       <TrustSection />
     </div>
